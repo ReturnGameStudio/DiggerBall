@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using GameAnalyticsSDK;
 using UnityEngine;
 
 public enum GameStatus { Null, Playing, Win,Finish, GameOver }
@@ -39,16 +40,18 @@ public class GameManager : Manager<GameManager>
     {
         GameStatus = GameStatus.Playing;
         UIManager.Instance.MenuActivate(false);        
-
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start,LevelManager.Instance.currentLevel.ToString());
         PlayAction?.Invoke();
     }
   
     public void GameOver()
     {
+        
         if (GameStatus == GameStatus.GameOver || GameStatus == GameStatus.Win) return;
         
         GameStatus = GameStatus.GameOver;
         StartCoroutine(WaitEnd());
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail,LevelManager.Instance.currentLevel.ToString());
     }
 
     private IEnumerator WaitEnd()
@@ -73,6 +76,9 @@ public class GameManager : Manager<GameManager>
         UpgradeManager.Instance.Reset("Damage");
         UpgradeManager.Instance.Reset("Rolling Time");
         DataManager.Instance.MyBlockCount = 0;
+        
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete,LevelManager.Instance.currentLevel.ToString());
+
     }
 
 

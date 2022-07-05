@@ -79,8 +79,6 @@ public class UIManager : Manager<UIManager>
         var brokenBlock = DataManager.Instance.MyBlockCount;
         var allBlock = LayerManager.Instance.BlockCountInLevel;
         var result = Mathf.Round(brokenBlock * 100f / allBlock);
-
-        Debug.Log(brokenBlock+"     "+allBlock+"    "+result); 
         text.text = result + "%";
 
         GameManager.Instance.GameOver();
