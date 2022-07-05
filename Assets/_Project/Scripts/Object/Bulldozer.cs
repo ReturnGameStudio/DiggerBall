@@ -66,7 +66,7 @@ public class Bulldozer : MonoBehaviour
     }
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!GameManager.Instance.IsPlaying()) return;
 
@@ -76,7 +76,7 @@ public class Bulldozer : MonoBehaviour
             //TurnUpTheHeat(-4 * Time.deltaTime); // topu soğut (-4 sıcaklık ekleyerek soğutuyor, daha dogrusu süreyi artırıyor)
 
 
-        test();
+        //test();
     }
 
     #region test

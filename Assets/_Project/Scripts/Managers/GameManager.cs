@@ -48,7 +48,6 @@ public class GameManager : Manager<GameManager>
         if (GameStatus == GameStatus.GameOver || GameStatus == GameStatus.Win) return;
         
         GameStatus = GameStatus.GameOver;
-        DataManager.Instance.BlockCount = 0;
         StartCoroutine(WaitEnd());
     }
 
@@ -59,6 +58,7 @@ public class GameManager : Manager<GameManager>
         UIManager.Instance.LoseActivate(true);
         GameOverAction?.Invoke();
         Invoke("Reload", 1.5f);
+        DataManager.Instance.MyBlockCount = 0;
     }
     public void Win()
     {
@@ -72,7 +72,7 @@ public class GameManager : Manager<GameManager>
         UpgradeManager.Instance.Reset("Size");
         UpgradeManager.Instance.Reset("Damage");
         UpgradeManager.Instance.Reset("Rolling Time");
-        DataManager.Instance.BlockCount = 0;
+        DataManager.Instance.MyBlockCount = 0;
     }
 
 

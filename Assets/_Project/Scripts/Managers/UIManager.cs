@@ -76,10 +76,11 @@ public class UIManager : Manager<UIManager>
             yield return null;
         }
 
-        var brokenBlock = DataManager.Instance.BlockCount;
+        var brokenBlock = DataManager.Instance.MyBlockCount;
         var allBlock = LayerManager.Instance.BlockCountInLevel;
         var result = Mathf.Round(brokenBlock * 100f / allBlock);
 
+        Debug.Log(brokenBlock+"     "+allBlock+"    "+result); 
         text.text = result + "%";
 
         GameManager.Instance.GameOver();
@@ -92,17 +93,18 @@ public class UIManager : Manager<UIManager>
         yield return new WaitUntil(() => UpgradeManager.Instance != null);
         UpgradeManager.Instance.GetFeature("Rolling Time").MyRollingTime.AddListener(CreaseEnergy);
         slide.fillAmount = UpgradeManager.Instance.GetFeature("Rolling Time").CurrentLevel / 10.0f;
+        DataManager.Instance.MyBlockCount = 0;
     }
 
 
     //------test
-    private void Update()
+    /*private void Update()
     {
         if (Input.GetKeyDown(KeyCode.C)) CheatPanel.SetActive(!CheatPanel.activeSelf);
     }
     public void AddGem() => DataManager.Instance.AddGem(1000);
     public void AddBlock() => DataManager.Instance.AddBlock(1000);
-    public void OpenShop() { UpgradeActivate(true); }
+    public void OpenShop() { UpgradeActivate(true); }*/
 
     //------
 

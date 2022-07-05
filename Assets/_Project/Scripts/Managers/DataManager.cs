@@ -9,12 +9,13 @@ public class DataManager : Manager<DataManager>
     public int RollingTime { get { return PlayerPrefs.GetInt("Rolling Time"); } set { PlayerPrefs.SetInt("Rolling Time", value); } }
     private int currentMaxBlock { get { int max = LevelManager.Instance.currentLevel * 150; return max; } }
     public int Block  { get { return PlayerPrefs.GetInt("block"); } set { PlayerPrefs.SetInt("block", value); } }
-    public int BlockCount  { get { return PlayerPrefs.GetInt("blockCount"); } set { PlayerPrefs.SetInt("blockCount", value); } }
+    public int MyBlockCount  { get { return PlayerPrefs.GetInt("MyBlockCount"); } set { PlayerPrefs.SetInt("MyBlockCount", value); } }
     private int totalBlocks;// { get { return PlayerPrefs.GetInt("totalBlocks"); } set { PlayerPrefs.SetInt("totalBlocks", value); } }
     
 
     private void Start()
     {
+        
         AddGem(0);
         AddBlock(0);
     }
@@ -33,7 +34,11 @@ public class DataManager : Manager<DataManager>
     public void AddBlock(int amount)
     {
         Block += amount;
-        BlockCount += amount;
+        if (amount>0)
+        {
+            MyBlockCount += amount;
+        }
+
         UIManager.Instance.UpdateBlockText(Block, currentMaxBlock);
 
         /* int ml = MachineLevel % 7;
