@@ -39,7 +39,8 @@ public class GameManager : Manager<GameManager>
     public void Play()
     {
         GameStatus = GameStatus.Playing;
-        UIManager.Instance.MenuActivate(false);        
+        UIManager.Instance.MenuActivate(false);   
+        
         GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start,LevelManager.Instance.currentLevel.ToString());
         PlayAction?.Invoke();
     }

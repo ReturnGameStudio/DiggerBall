@@ -46,6 +46,7 @@ public class LevelManager : Manager<LevelManager>
     {
         currentLevel++;
         LoadCurrentLevel();
+        DataManager.Instance.Block = 0;
     }
     public void LoadCurrentLevel()
     {
