@@ -16,6 +16,11 @@ public class DataManager_Editor : Editor
             myTarget.AddGem(1000);
             Debug.Log("Added 1000 Gems");
         }
+        if (GUILayout.Button("Add 1000 Coin"))
+        {
+            myTarget.AddBlock(1000);
+            Debug.Log("Added 1000 Gems");
+        }
 
         if (GUILayout.Button("# RESET ALL DATA #"))
         {

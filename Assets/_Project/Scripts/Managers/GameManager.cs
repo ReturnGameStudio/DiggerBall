@@ -41,7 +41,7 @@ public class GameManager : Manager<GameManager>
         GameStatus = GameStatus.Playing;
         UIManager.Instance.MenuActivate(false);   
         
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start,LevelManager.Instance.currentLevel.ToString());
+        //GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start,LevelManager.Instance.currentLevel.ToString());
         PlayAction?.Invoke();
     }
   
@@ -52,7 +52,7 @@ public class GameManager : Manager<GameManager>
         
         GameStatus = GameStatus.GameOver;
         StartCoroutine(WaitEnd());
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail,LevelManager.Instance.currentLevel.ToString());
+        //GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail,LevelManager.Instance.currentLevel.ToString());
     }
 
     private IEnumerator WaitEnd()
@@ -76,9 +76,10 @@ public class GameManager : Manager<GameManager>
         UpgradeManager.Instance.Reset("Size");
         UpgradeManager.Instance.Reset("Damage");
         UpgradeManager.Instance.Reset("Rolling Time");
+        DataManager.Instance.MachineLevel = 1;
         DataManager.Instance.MyBlockCount = 0;
         
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete,LevelManager.Instance.currentLevel.ToString());
+        //GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete,LevelManager.Instance.currentLevel.ToString());
 
     }
 

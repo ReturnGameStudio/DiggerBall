@@ -38,11 +38,10 @@ public class Bulldozer : MonoBehaviour
     public void InitProperties()
     {
         machineLevel = DataManager.Instance.MachineLevel + 1;
-//        print("machine level: " + machineLevel);
 
         machineScale = 1 + UpgradeManager.Instance.GetFeature("Size").CurrentLevel * .15f;
         transform.localScale = Vector3.one * machineScale;
-        CameraManager.Instance.UpdateCamera(machineLevel);
+        CameraManager.Instance.UpdateCamera(UpgradeManager.Instance.GetFeature("Size").CurrentLevel);
 
         movementSpeed = UpgradeManager.Instance.GetFeature("Speed").CurrentLevel;
         playerController.speed = 6.5f + movementSpeed * .75f;
@@ -51,6 +50,11 @@ public class Bulldozer : MonoBehaviour
         currentTime = maxRollingTime;
 
         PlayerCosmetic.Instance.UpdateChildObjects();
+
+        Debug.Log("Size= " + UpgradeManager.Instance.GetFeature("Size").CurrentLevel);
+        Debug.Log("Speed= " + UpgradeManager.Instance.GetFeature("Speed").CurrentLevel);
+        Debug.Log("Rolling Time= " + UpgradeManager.Instance.GetFeature("Rolling Time").CurrentLevel);
+        print("machine level: " + machineLevel);
 
         anim.Play();
     }

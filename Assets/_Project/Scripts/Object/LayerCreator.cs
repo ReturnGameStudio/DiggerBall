@@ -26,7 +26,7 @@ public class LayerCreator : MonoBehaviour
     //public int BlockCount { get { return layerHeight * layerWidth; } }
 
     [Header("Block Properties")]
-    [SerializeField] private int blockDurability;
+   /* [SerializeField]*/ private int blockDurability;
     public Color blockColor;
     [SerializeField] private Texture2D map;
     [SerializeField] private bool useMapColors;
@@ -49,6 +49,23 @@ public class LayerCreator : MonoBehaviour
     public int count;
     private IEnumerator CreateLayerEnum()
     {
+        switch (LayerIndex)
+        {
+            case 0: blockDurability = 1; break;
+            case 1: blockDurability = 1; break;
+            case 2: blockDurability = 2; break;
+            case 3: blockDurability = 3; break;
+            case 4: blockDurability = 4; break;
+            case 5: blockDurability = 4; break;
+            case 6: blockDurability = 4; break;
+            case 7: blockDurability = 5; break;
+            case 8: blockDurability = 5; break;
+            case 9: blockDurability = 6; break;
+            case 10: blockDurability = 6; break;
+            default:
+                break;
+        }
+
         float cubeScale = LayerManager.Instance.CubeScale; 
         count = LayerIndex * (layerWidth * layerHeight);
 

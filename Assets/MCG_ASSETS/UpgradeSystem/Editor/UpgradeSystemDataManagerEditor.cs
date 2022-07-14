@@ -19,6 +19,11 @@ public class UpgradeSystemDataManagerEditor : Editor
             myTarget.AddGem(1000);
             Debug.Log("Added 1000 Gems");
         }
+        if (GUILayout.Button("Add 1000 Coins"))
+        {
+            myTarget.AddBlock(1000);
+            Debug.Log("Added 1000 Coins");
+        }
 
         if (GUILayout.Button("# RESET ALL DATA #"))
         {

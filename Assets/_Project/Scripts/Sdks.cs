@@ -1,13 +1,13 @@
-using Facebook.Unity;
+/*using Facebook.Unity;
 using GameAnalyticsSDK;
-using Unity.Advertisement.IosSupport;
+//using Unity.Advertisement.IosSupport;
 using UnityEngine;
 
 namespace _Project.Scripts
 {
     public class Sdks: MonoBehaviour
     {
-        private void Awake()
+     /*   private void Awake()
         {
             if (!FB.IsInitialized)
             {
@@ -38,4 +38,4 @@ namespace _Project.Scripts
             SkAdNetworkBinding.SkAdNetworkRegisterAppForNetworkAttribution();
         }
     }
-}
+}*/
