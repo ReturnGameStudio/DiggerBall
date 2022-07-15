@@ -51,10 +51,10 @@ public class Bulldozer : MonoBehaviour
 
         PlayerCosmetic.Instance.UpdateChildObjects();
 
-        Debug.Log("Size= " + UpgradeManager.Instance.GetFeature("Size").CurrentLevel);
-        Debug.Log("Speed= " + UpgradeManager.Instance.GetFeature("Speed").CurrentLevel);
-        Debug.Log("Rolling Time= " + UpgradeManager.Instance.GetFeature("Rolling Time").CurrentLevel);
-        print("machine level: " + machineLevel);
+//        Debug.Log("Size= " + UpgradeManager.Instance.GetFeature("Size").CurrentLevel);
+  //      Debug.Log("Speed= " + UpgradeManager.Instance.GetFeature("Speed").CurrentLevel);
+    //    Debug.Log("Rolling Time= " + UpgradeManager.Instance.GetFeature("Rolling Time").CurrentLevel);
+//        print("machine level: " + machineLevel);
 
         anim.Play();
     }

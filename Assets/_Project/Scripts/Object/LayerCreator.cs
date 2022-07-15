@@ -49,7 +49,7 @@ public class LayerCreator : MonoBehaviour
     public int count;
     private IEnumerator CreateLayerEnum()
     {
-        Debug.Log(1);
+      //  Debug.Log(1);
         switch (LayerIndex)
         {
             case 0: blockDurability = 1; break;
@@ -75,7 +75,7 @@ public class LayerCreator : MonoBehaviour
         Random.InitState(LayerIndex * 2);
         for (int i = 0; i < items.Length; i++)
         {
-            Debug.Log(2);
+           // Debug.Log(2);
             BlockItem bI = items[i];
             bI.ItemCoords = new int[bI.Count];
             for (int a = 0; a < bI.ItemCoords.Length; a++)
@@ -115,7 +115,7 @@ public class LayerCreator : MonoBehaviour
                 Vector3 pos = transform.position + new Vector3(x * cubeScale, -LayerIndex * cubeScale, z * cubeScale) + new Vector3(cubeScale, 0, cubeScale);
                 if (GetPixel(x, z) && !isGroundLayer)
                 {
-                    Debug.Log(3);
+                    //Debug.Log(3);
                     LayerManager.Instance.BlockCountInLevel++;
 
                     //if (PlayerPrefs.GetInt(LevelManager.Instance.currentLevel + "minestone" + count) != 1) //this block broken
@@ -129,7 +129,7 @@ public class LayerCreator : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(4);
+                   // Debug.Log(4);
                     GameObject blockCollider = new GameObject("collider" + x + "x" + z);
                     blockCollider.transform.localScale = Vector3.one * cubeScale ;
                     
@@ -152,7 +152,7 @@ public class LayerCreator : MonoBehaviour
             }
             yield return null;
         }
-        Debug.Log(5);
+//        Debug.Log(5);
 
         if (tempGroundCube != null) Destroy(tempGroundCube.gameObject);
 
