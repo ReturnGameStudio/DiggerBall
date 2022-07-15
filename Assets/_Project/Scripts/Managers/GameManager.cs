@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using GameAnalyticsSDK;
+//using GameAnalyticsSDK;
 using UnityEngine;
 
 public enum GameStatus { Null, Playing, Win,Finish, GameOver }
@@ -77,7 +77,7 @@ public class GameManager : Manager<GameManager>
         UpgradeManager.Instance.Reset("Damage");
         UpgradeManager.Instance.Reset("Rolling Time");
         DataManager.Instance.MachineLevel = 1;
-        DataManager.Instance.MyBlockCount = 0;
+        //DataManager.Instance.MyBlockCount = 0;
         
         //GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete,LevelManager.Instance.currentLevel.ToString());
 
