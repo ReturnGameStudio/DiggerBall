@@ -7,13 +7,16 @@ public class Helicopter : MonoBehaviour
     private Bulldozer bulldozer;
     [SerializeField] private Transform child;
     private Animator animator;
+
+
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
         bulldozer = FindObjectOfType<Bulldozer>();
-        Release();
         GameManager.Instance.WinAction += HoldOn;
+        Release();
     }
+
 
     private void Release()
     {
@@ -25,11 +28,11 @@ public class Helicopter : MonoBehaviour
     }
     private IEnumerator ReleaseAnim()
     {
-        
+
         child.localPosition = new Vector3(-30, 20, 0);
         child.localScale = bulldozer.transform.localScale * .2f;
 
-        bulldozer.transform.position = new Vector3(-30,20,0);
+        bulldozer.transform.position = new Vector3(-30, 20, 0);
 
         yield return new WaitForSeconds(.2f);
         bulldozer.Busy(true);
@@ -46,17 +49,25 @@ public class Helicopter : MonoBehaviour
             child.localPosition = Vector3.Lerp(child.localPosition, pos, t);
             yield return null;
         }
+        UIManager.Instance.MenuActivate(true);
+
+        yield return new WaitUntil(() => GameManager.Instance.IsPlaying());
+
         animator.Play("ClawRelease");
+        yield return new WaitForSeconds(.2f);
+
         bulldozer.transform.parent = null;
 
-        // bulldozer.Busy(false);
-        UIManager.Instance.BarActivate(true);
-
-
+        UIManager.Instance.GameActivate(true);
         GameManager.Instance.Play();
-        yield return new WaitForSeconds(2f);
+        bulldozer.Busy(false);
+
+        yield return new WaitForSeconds(1);
         child.gameObject.SetActive(false);
+
     }
+
+
 
     private IEnumerator HoldAnim()
     {

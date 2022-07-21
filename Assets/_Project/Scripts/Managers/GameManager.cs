@@ -1,16 +1,15 @@
 using System;
 using System.Collections;
-//using GameAnalyticsSDK;
 using UnityEngine;
 
-public enum GameStatus { Null, Playing, Win,Finish, GameOver }
+public enum GameStatus { Null, Playing, Win, Finish, GameOver }
 
 public delegate void Action();
 public class GameManager : Manager<GameManager>
 {
 
-    public Action GameOverAction, PlayAction, WinAction,FinishAction;
-    public static bool isGameStarted;
+    public Action GameOverAction, PlayAction, WinAction, FinishAction;
+    // public static bool isGameStarted;
 
     [Header("Game Status")]
     public GameStatus GameStatus;
@@ -19,7 +18,7 @@ public class GameManager : Manager<GameManager>
     public Transform Player;
 
     private void Awake()
-    {        
+    {
         Player = GameObject.FindGameObjectWithTag("Player").transform;
         base.Awake();
     }
@@ -39,20 +38,18 @@ public class GameManager : Manager<GameManager>
     public void Play()
     {
         GameStatus = GameStatus.Playing;
-        UIManager.Instance.MenuActivate(false);   
-        
-        //GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start,LevelManager.Instance.currentLevel.ToString());
+        UIManager.Instance.MenuActivate(false);
+
         PlayAction?.Invoke();
     }
-  
+
     public void GameOver()
     {
-        
         if (GameStatus == GameStatus.GameOver || GameStatus == GameStatus.Win) return;
-        
+
         GameStatus = GameStatus.GameOver;
+        DataManager.Instance.BlockCount = 0;
         StartCoroutine(WaitEnd());
-        //GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail,LevelManager.Instance.currentLevel.ToString());
     }
 
     private IEnumerator WaitEnd()
@@ -62,25 +59,16 @@ public class GameManager : Manager<GameManager>
         UIManager.Instance.LoseActivate(true);
         GameOverAction?.Invoke();
         Invoke("Reload", 1.5f);
-        DataManager.Instance.MyBlockCount = 0;
     }
     public void Win()
     {
         if (GameStatus == GameStatus.Win || GameStatus == GameStatus.GameOver) return;
-        
+
         GameStatus = GameStatus.Win;
         UIManager.Instance.WinActivate(true);
-        
-        WinAction?.Invoke();
-        UpgradeManager.Instance.Reset("Speed");
-        UpgradeManager.Instance.Reset("Size");
-        UpgradeManager.Instance.Reset("Damage");
-        UpgradeManager.Instance.Reset("Rolling Time");
-        DataManager.Instance.MachineLevel = 1;
-        //DataManager.Instance.MyBlockCount = 0;
-        
-        //GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete,LevelManager.Instance.currentLevel.ToString());
 
+        WinAction?.Invoke();
+        DataManager.Instance.BlockCount = 0;
     }
 
 
@@ -95,11 +83,11 @@ public class GameManager : Manager<GameManager>
 
     public void Reload()
     {
-      LevelManager.Instance.LoadCurrentLevel();
+        LevelManager.Instance.LoadCurrentLevel();
     }
 
 
     #endregion
 
-   
+
 }

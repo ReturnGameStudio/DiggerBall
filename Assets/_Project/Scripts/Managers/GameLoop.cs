@@ -17,17 +17,16 @@ public class GameLoop : Manager<GameLoop>
 
     public void DeactivePanels()
     {
-        //UIManager.Instance.UpgradeActivate(false);
-        //UIManager.Instance.ShopActivate(false);
+        UIManager.Instance.UpgradeActivate(false);
+        UIManager.Instance.ShopActivate(false);
     }
     public void AddToMachineLevel() => DataManager.Instance.MachineLevel++;
     public void ResetBlocks() => DataManager.Instance.ResetTotalBlocks();
 
     public void BulldozerNotBusy()
     {
-        //UIManager.Instance.StartBarAction();
-        //bulldozer.Busy(false); 
-       // bulldozer.GoTopOrBottom(false);
+        bulldozer.Busy(false);
+        bulldozer.GoTopOrBottom(false);
     }
 
     //------ test

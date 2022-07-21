@@ -19,19 +19,20 @@ public class ShopManager : Manager<ShopManager>
         SelectActions?.Invoke();
     }
 
-    private  ShopItem nextItem;
+    private ShopItem nextItem;
     public void BuyItem(int id)
     {
         ShopItem item = items[id];
 
         if (DataManager.Instance.CheckAndSpendMoney(item.MoneyType, item.Price))
         {
+            UpgradeManager.Instance.Reset("Damage");
             item.IsPurchased = true;
             SelectItem(id);
         }
     }
 
-    public  float GetPrice()
+    public float GetPrice()
     {
         if (nextItem == null) return 99999;
         return nextItem.Price;
@@ -42,10 +43,10 @@ public class ShopManager : Manager<ShopManager>
         int selected = PlayerPrefs.GetInt("selected_shop_item");
         PlayerCosmetic.Instance.SelectAccessory(selected);
         ShopUIManager.Instance.UpdatePanels(items, selected);
-        
+
     }
 
-    private  void FindNextItem()
+    private void FindNextItem()
     {
         foreach (var item in items)
         {
@@ -55,6 +56,18 @@ public class ShopManager : Manager<ShopManager>
                 break;
             }
         }
+    }
+
+    public int GetMinimumPrice()
+    {
+        int price = items[items.Length - 1].Price;
+        foreach (var i in items)
+        {
+            if (i.IsPurchased) continue;
+            if (i.Price < price)
+                price = i.Price;
+        }
+        return price;
     }
 
     //test------

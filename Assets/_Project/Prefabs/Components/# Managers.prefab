@@ -631,6 +631,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8577860173580995736, guid: 17cd4915a4ddddc44ae6698b547ee590, type: 3}
+      propertyPath: Features.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577860173580995736, guid: 17cd4915a4ddddc44ae6698b547ee590, type: 3}
       propertyPath: Features.Array.data[0].PriceMultiplier
       value: 100
       objectReference: {fileID: 0}

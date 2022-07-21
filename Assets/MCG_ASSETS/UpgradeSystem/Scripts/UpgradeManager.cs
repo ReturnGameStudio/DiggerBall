@@ -47,7 +47,7 @@ public class UpgradeManager : Manager<UpgradeManager>
     {
         if (!_gameStarted)
         {
-        UIManager.Instance.BarActivate(true);
+            ;
             _gameStarted = true;
         }
 
@@ -60,4 +60,14 @@ public class UpgradeManager : Manager<UpgradeManager>
         Initialize();
     }
 
+    public int GetMinimumPrice()
+    {
+        int price = Features[0].CurrentPrice;
+        foreach (var f in Features)
+        {
+            if (f.CurrentPrice < price)
+                price = f.CurrentPrice;
+        }
+        return price;
+    }
 }

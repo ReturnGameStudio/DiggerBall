@@ -26,7 +26,7 @@ public class PlayerCosmetic : Manager<PlayerCosmetic>
         CurrentAccessory = accessories[id];
         CurrentAccessory.gameObject.SetActive(true);
         meshRenderer.material.color = CurrentAccessory.BodyColor;
-        UIManager.Instance.ChangeBallColorUI(CurrentAccessory.BodyColor);
+       
 
         foreach (var ps in _particle.GetComponentsInChildren<ParticleSystem>())
         {

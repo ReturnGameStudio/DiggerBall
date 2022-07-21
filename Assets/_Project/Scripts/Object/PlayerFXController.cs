@@ -21,22 +21,22 @@ public class PlayerFXController : MonoBehaviour
         Invoke("GetOriginalColor", .1f);
     }
 
-    public void LevelUp() 
+    public void LevelUp()
     {
-        if(levelUpParticle==null)return;
-       levelUpParticle.Play();
-        _animator.Play("bladeScaleAnimation");
-        Invoke("GetOriginalColor",.1f);
+        if (levelUpParticle == null) return;
+        levelUpParticle.Play();
+        //  _animator.Play("bladeScaleAnimation");
+        Invoke("GetOriginalColor", .1f);
     }
 
-    public void TurnBlade(float speed) 
+    public void TurnBlade(float speed)
     {
         if (!GameManager.Instance.IsPlaying()) return;
         bulldozerBody.Rotate(Time.deltaTime * 180 * (speed), 0, 0);
     }
 
 
-    public void ShakeBulldozer(float duration, float magnitude) { if (_shake) return; StartCoroutine(Shake(duration, magnitude)); } 
+    public void ShakeBulldozer(float duration, float magnitude) { if (_shake) return; StartCoroutine(Shake(duration, magnitude)); }
     private IEnumerator Shake(float duration, float magnitude)
     {
 
@@ -80,7 +80,7 @@ public class PlayerFXController : MonoBehaviour
             yield return null;
         }
     }
-    
+
     private void GetOriginalColor()
     {
         _originalColor = PlayerCosmetic.Instance.CurrentAccessory.BodyColor;
@@ -88,8 +88,7 @@ public class PlayerFXController : MonoBehaviour
 
     public void ChangeColor(float value)
     {
-        Color red = Color.red;
-        _renderer.material.color = Color.Lerp(_originalColor, Red,value);
+        _renderer.material.color = Color.Lerp(_originalColor, Red, value);
     }
 
 

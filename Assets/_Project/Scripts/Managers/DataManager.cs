@@ -7,15 +7,14 @@ public class DataManager : Manager<DataManager>
     public int Gem { get { return PlayerPrefs.GetInt("gem"); } set { PlayerPrefs.SetInt("gem", value); } }
     public int MachineLevel { get { return PlayerPrefs.GetInt("machineLevel"); } set { PlayerPrefs.SetInt("machineLevel", value); } }
     public int RollingTime { get { return PlayerPrefs.GetInt("Rolling Time"); } set { PlayerPrefs.SetInt("Rolling Time", value); } }
-    private int currentMaxBlock { get { int max = LevelManager.Instance.currentLevel * 150; return max; } }
-    public int Block  { get { return PlayerPrefs.GetInt("block"); } set { PlayerPrefs.SetInt("block", value); } }
-    public int MyBlockCount  { get { return PlayerPrefs.GetInt("MyBlockCount"); } set { PlayerPrefs.SetInt("MyBlockCount", value); } }
+    private int currentMaxBlock { get { int level = LevelManager.Instance.currentLevel; level = level % 2 == 0 ? level - 1 : level; int max = level * 150; return max; } }
+    public int Coin { get { return PlayerPrefs.GetInt("coin"); } set { PlayerPrefs.SetInt("coin", value); } }
+    public int BlockCount { get { return PlayerPrefs.GetInt("blockCount"); } set { PlayerPrefs.SetInt("blockCount", value); } }
     private int totalBlocks;// { get { return PlayerPrefs.GetInt("totalBlocks"); } set { PlayerPrefs.SetInt("totalBlocks", value); } }
-    
+
 
     private void Start()
     {
-        
         AddGem(0);
         AddBlock(0);
     }
@@ -29,42 +28,48 @@ public class DataManager : Manager<DataManager>
     }
 
     public int brokeBlock;
-    
+
 
     public void AddBlock(int amount)
     {
-        Block += amount;
-        if (amount>0)
+        Coin += amount;
+        BlockCount += amount;
+        UIManager.Instance.UpdateCoinText(Coin);
+
+        
+
+        if (BlockCount >= currentMaxBlock)
         {
-            MyBlockCount += amount;
+
+            if (MachineLevel > 0 && MachineLevel % 7 == 0) // 7
+            {
+                if (ShopManager.Instance.GetMinimumPrice() > Gem)
+                {
+                    if (UpgradeManager.Instance.GetMinimumPrice() > Coin) return;
+                    UIManager.Instance.UpgradeActivate(true);
+                }
+                else
+                {
+                    UIManager.Instance.ShopActivate(true);
+                }
+            }
+            else
+            {
+                if (UpgradeManager.Instance.GetMinimumPrice() > Coin) return;
+                UIManager.Instance.UpgradeActivate(true);
+            }
+
+            Bulldozer b = FindObjectOfType<Bulldozer>();
+            b.Busy(true);
+            b.GoTopOrBottom(true);
         }
-
-        UIManager.Instance.UpdateBlockText(Block, currentMaxBlock);
-
-        /* int ml = MachineLevel % 7;
-         UIManager.Instance.UpdateUpgradeBar((MachineLevel>0 && ml == 0) ? 8 : ml);
- 
-         if (Block >= currentMaxBlock)
-         {
-             Bulldozer b = FindObjectOfType<Bulldozer>();
-             b.Busy(true);
-             b.GoTopOrBottom(true);
- 
- 
-             if (MachineLevel > 0 && MachineLevel % 7 == 0) // 7
-             { UIManager.Instance.ShopActivate(true); }
-             else
-             {
-                // UIManager.Instance.UpgradeActivate(true);
-             }
-         }*/
     }
 
     public void AddToTotalBlocks(int amount)
     {
         if (amount <= 0) return;
         totalBlocks += amount;
-      
+
         if (totalBlocks >= LayerManager.Instance.BlockCountInLevel)
         {
             print("level complete");
@@ -76,7 +81,7 @@ public class DataManager : Manager<DataManager>
 
     public void ResetTotalBlocks()
     {
-        //Block = 0; 
+        BlockCount = 0;
         AddBlock(0);
     }
 
@@ -89,9 +94,9 @@ public class DataManager : Manager<DataManager>
                 canPurchased = Gem >= price;
                 if (canPurchased) AddGem(-price);
                 break;
-            
+
             case MoneyType.Coin:
-                canPurchased = Block >= price;
+                canPurchased = Coin >= price;
                 if (canPurchased) AddBlock(-price);
                 break;
         }

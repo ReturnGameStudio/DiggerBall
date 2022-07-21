@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
 
     public static Action OnStopParticle;
-    
+
     [Header("Joystick")]
     [SerializeField] private Joystick _joystick;
     [SerializeField] private ParticleSystem particle;
@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour
         _joystick = FindObjectOfType<Joystick>();
         _rigidbody = GetComponent<Rigidbody>();
         _bulldozer = GetComponent<Bulldozer>();
-        InputManager.Instance.MouseUpAction += Jump;
     }
 
 
@@ -74,102 +73,12 @@ public class PlayerController : MonoBehaviour
         vel.y = _rigidbody.velocity.y;
         _rigidbody.velocity = vel;
     }
-    
+
     public void ResetVelocity()
     {
         _rigidbody.velocity *= 0;
         _rigidbody.angularVelocity *= 0;
     }
-
-    private void Jump()
-    {
-        if (_bulldozer.initialExcavation) return;
-
-        
-        if (!isJump && GameManager.Instance.IsPlaying())
-        {
-            // SetKinematic(true);
-            var force = GetComponent<ConstantForce>().force;
-            force.y = -100;
-            GetComponent<ConstantForce>().force = force;
-            _rigidbody.AddForce(Vector3.up * JUMP_FORCE);
-            isJump = true;
-            //StartCoroutine(Wait());
-        }
-    }
-
-    private IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(4f);
-        isJump = false;
-    }
-
-
-    private void LateUpdate()
-    {
-        if (isJump)
-        { 
-            if (!CheckGround(rayDistance*2))
-            {
-                isAir = true;
-            }
-        }
-    }
-
-
-    public bool isJump;
-    private bool isAir=false;
-    [SerializeField] private LayerMask layerMask;
-    [SerializeField] private float rayDistance;
-    private bool CheckGround(float dist)
-    {
-        return Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out var hit, dist, layerMask);
-    }
-
-    private bool isStart;
-    [SerializeField] private ParticleSystem explo;
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("MineStone") && isAir)
-        {
-            explo.Play();
-            isAir = false;
-            isJump = false;
-            var force = GetComponent<ConstantForce>().force;
-            force.y = -20;
-            GetComponent<ConstantForce>().force = force;
-            
-            var cols = Physics.OverlapBox(transform.position+2*Vector3.up, new Vector3(7.5f, 1.5f, 7.5f));
-            foreach (Collider col in cols)
-            {
-                if (col.CompareTag("MineStone"))
-                {
-                    _rigidbody.isKinematic = true;
-                    PoolManager.Instance.GetCrushParticle(col.transform.position,col.GetComponent<MineStone>().BlockColor);
-                    Destroy(col.gameObject);
-                    _rigidbody.isKinematic = false;
-                    DataManager.Instance.AddToTotalBlocks(1);
-                    DataManager.Instance.AddBlock(1);
-                }
-            }
-        }
-
-        if (collision.gameObject.CompareTag("MineStone") && !isStart)
-        {
-            StartCoroutine(UIManager.Instance.Fuel());
-            isStart = true;
-        }
-    }
-
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position+2*Vector3.up, new Vector3(15.5f, 3, 15.5f));
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, 7.5f);
-    }
-
 
     public void SetKinematic(bool kinematic)
     {
